@@ -1,0 +1,84 @@
+# vim: et:ts=8
+
+#
+# EVE Ores
+# https://ore.cerlestes.de/#site:ore
+# https://www.fuzzwork.co.uk/ore/
+# https://eve-marketdata.com/mining.php?step=Ore
+#
+
+{
+  "hedbergite": [
+    "hedbergite                        3.00",
+    "vitric-hedbergite                 3.00",
+    "glazed-hedbergite                 3.00",
+    "compressed-hedbergite             0.14",
+    "compressed-vitric-hedbergite      0.14",
+    "compressed-glazed-hedbergite      0.14"
+  ],
+  "hemorphite": [
+    "hemorphite                        3.00",
+    "vivid-hemorphite                  3.00",
+    "radiant-hemorphite                3.00",
+    "compressed-hemorphite             0.16",
+    "compressed-vivid-hemorphite       0.16",
+    "compressed-radiant-hemorphite     0.16"
+  ],
+  "jaspet": [
+    "jaspet                            2.00",
+    "pure-jaspet                       2.00",
+    "pristine-jaspet                   2.00",
+    "compressed-jaspet                 0.15",
+    "compressed-pure-jaspet            0.15",
+    "compressed-pristine-jaspet        0.15"
+  ],
+  "kernite": [
+    "kernite                           1.20",
+    "luminous-kernite                  1.20",
+    "fiery-kernite                     1.20",
+    "compressed-kernite                0.19",
+    "compressed-luminous-kernite       0.19",
+    "compressed-fiery-kernite          0.19"
+  ],
+  "omber": [
+    "omber                             0.60",
+    "silvery-omber                     0.60",
+    "golden-omber                      0.60",
+    "compressed-omber                  0.30",
+    "compressed-silvery-omber          0.30",
+    "compressed-golden-omber           0.30"
+  ],
+  "plagioclase": [
+    "plagioclase                       0.35",
+    "azure-plagioclase                 0.35",
+    "rich-plagioclase                  0.35",
+    "compressed-plagioclase            0.15",
+    "compressed-azure-plagioclase      0.15",
+    "compressed-rich-plagioclase       0.15"
+  ],
+  "pyroxeres": [
+    "pyroxeres                         0.30",
+    "solid-pyroxeres                   0.30",
+    "viscous-pyroxeres                 0.30",
+    "compressed-pyroxeres              0.16",
+    "compressed-solid-pyroxeres        0.16",
+    "compressed-viscous-pyroxeres      0.16"
+  ],
+  "scordite": [
+    "scordite                          0.19",
+    "condensed-scordite                0.19",
+    "massive-scordite                  0.19",
+    "compressed-scordite               0.15",
+    "compressed-condensed-scordite     0.15",
+    "compressed-massive-scordite       0.15"
+  ],
+  "veldspar": [
+    "veldspar                          0.15",
+    "concentrated-veldspar             0.15",
+    "dense-veldspar                    0.15",
+    "compressed-concentrated-veldspar  0.10",
+    "compressed-dense-veldspar         0.10",
+    "compressed-veldspar               0.10"
+  ]
+}
+
