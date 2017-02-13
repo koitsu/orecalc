@@ -5,6 +5,7 @@ use JSON::PP;
 
 use vars qw($cfg %ores);
 use vars qw($hold_size $m3 $chosen_ore $price $ore_found);
+use vars qw(@section_order);
 
 
 sub decode_json_file {
@@ -40,6 +41,15 @@ $cfg = decode_json_file("data.json");
 
 $m3 = "m\N{U+00B3}";
 
+if ($ores{__ORDER}) {
+  @section_order = @{ $ores{__ORDER} };
+
+  delete $ores{__ORDER};
+}
+else {
+  print "ERROR: __ORDER array missing in JSON file\n";
+  exit(1);
+}
 
 
 # TODO Migrate to Getopt::Long, though this makes the command line
@@ -61,10 +71,9 @@ elsif ($#ARGV == 2) {
 
 binmode(STDOUT, ":utf8");
 
-foreach my $type (sort keys %ores) {
+foreach my $type (@section_order) {
   if (not $chosen_ore) {
-    print $type;
-    print "\n";
+    print "\e[1;37m", $type, "\e[0;0m\n";
   }
 
   my @array = @{ $ores{$type} };
@@ -101,8 +110,10 @@ foreach my $type (sort keys %ores) {
       }
     }
     else {
-      printf "  %-35s %.2f $m3 = %.2f $m3 storable (in hold of %.2f $m3)\n",
-        $orename,
+      my $orename_coloured = "\e[1;36m" . $orename . "\e[0;0m";
+
+      printf "  %-45s %.2f $m3 = %.2f $m3 storable (in hold of %.2f $m3)\n",
+        $orename_coloured,
         $value,
         $result,
         $hold_size;
@@ -111,6 +122,7 @@ foreach my $type (sort keys %ores) {
 }
 
 if ($chosen_ore and not $ore_found) {
-  print "ERROR: Ore '", $chosen_ore, "' not found\n";
+  print "ERROR: Ore '", $chosen_ore, "' not found in JSON file\n";
+  exit(1);
 }
 
