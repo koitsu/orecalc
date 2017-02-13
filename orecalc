@@ -2,10 +2,12 @@
 use strict;
 use warnings;
 use JSON::PP;
+use File::Basename;
 
 use vars qw($cfg %ores);
 use vars qw($hold_size $m3 $chosen_ore $price $ore_found);
 use vars qw(@section_order);
+use vars qw($data_file $dirname);
 
 
 sub decode_json_file {
@@ -47,7 +49,15 @@ sub verify_number {
 
 $hold_size = 5000.00;
 
-$cfg = decode_json_file("data.json");
+if ( -l __FILE__) {
+    $dirname = dirname(readlink(__FILE__));
+} else {
+    $dirname = dirname(__FILE__);
+}
+    
+$data_file = "$dirname/data.json";
+
+$cfg = decode_json_file("$data_file");
 %ores = %{ $cfg };
 
 $m3 = "m\N{U+00B3}";
