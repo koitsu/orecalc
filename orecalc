@@ -33,6 +33,15 @@ sub big_money {
   $number;
 }
 
+sub verify_number {
+  my $number = shift;
+
+  if ($number !~ /^[0-9.]+$/) {
+    print "ERROR: Value '", $number, "' is not a value number\n";
+    exit(1);
+  }
+}
+
 
 $hold_size = 5000.00;
 
@@ -60,12 +69,12 @@ if ($#ARGV == 0) {
 }
 elsif ($#ARGV == 1) {
   $chosen_ore = $ARGV[0];
-  $price      = $ARGV[1];
+  $price      = verify_number($ARGV[1]);
 }
 elsif ($#ARGV == 2) {
   $chosen_ore = $ARGV[0];
-  $price      = $ARGV[1];
-  $hold_size  = $ARGV[2];
+  $price      = verify_number($ARGV[1]);
+  $hold_size  = verify_number($ARGV[2]);
 }
 
 
