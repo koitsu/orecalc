@@ -40,6 +40,8 @@ sub verify_number {
     print "ERROR: Value '", $number, "' is not a value number\n";
     exit(1);
   }
+
+  return $number;
 }
 
 
