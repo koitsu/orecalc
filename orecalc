@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use JSON::PP;
+use FindBin qw($Bin);
 
 use vars qw($cfg %ores);
 use vars qw($hold_size $m3 $chosen_ore $price $ore_found);
@@ -47,7 +48,7 @@ sub verify_number {
 
 $hold_size = 5000.00;
 
-$cfg = decode_json_file("data.json");
+$cfg = decode_json_file("$Bin/data.json");
 %ores = %{ $cfg };
 
 $m3 = "m\N{U+00B3}";
