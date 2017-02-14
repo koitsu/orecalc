@@ -1,28 +1,107 @@
 #!/usr/local/bin/perl
 use strict;
 use warnings;
-use JSON::PP;
-use FindBin qw($Bin);
 
 use vars qw($cfg %ores);
 use vars qw($hold_size $m3 $chosen_ore $price $ore_found);
 use vars qw(@section_order);
 
+#
+# EVE Ores
+# https://ore.cerlestes.de/#site:ore
+# http://timtrott.co.uk/eve-online-asteroid-ore-cheatsheet/
+# https://www.fuzzwork.co.uk/ore/
+# https://eve-marketdata.com/mining.php?step=Ore
+#
+%ores = (
+  "__ORDER" => [
+    "Security -0.8 to -0.6",
+    "Security -0.5 (Amarr, Caldari)",
+    "Security -0.5 (Amarr, Caldari, Gallente)",
+    "Security -0.4 (Amarr, Minmatar)",
+    "Security -0.2 (Caldari, Gallente)",
+    "Security 0.2 (Amarr, Gallente)",
+    "Security 0.4 (Amarr, Gallente)",
+    "Security 0.7 (Amarr)\nSecurity 0.4 (Caldari, Minmatar)",
+    "Security 0.7 (Gallente, Minmatar)",
+    "Security 0.9 (Gallente, Minmatar)\nSecurity 0.7 (Caldari)",
+    "Security 0.9 (Amarr, Caldari)",
+    "All Space"
+  ],
+  "Security -0.8 to -0.6" => [
+    "arkonor                          16.00",
+    "crimson-arkonor                  16.00",
+    "prime-arkonor                    16.00",
+    "bistot                           16.00",
+    "triclinic-bistot                 16.00",
+    "monoclinic-bistot                16.00",
+    "mercoxit                         40.00",
+    "magma-mercoxit                   40.00",
+    "vitreous-mercoxit                40.00"
+  ],
+  "Security -0.5 (Amarr, Caldari)" => [
+    "spodumain                        16.00",
+    "bright-spodumain                 16.00",
+    "gleaming-spodumain               16.00"
+  ],
+  "Security -0.5 (Amarr, Caldari, Gallente)" => [
+    "crokite                          16.00",
+    "sharp-crokite                    16.00",
+    "crystalline-crokite              16.00"
+  ],
+  "Security -0.4 (Amarr, Minmatar)" => [
+    "gneiss                            5.00",
+    "iridescent-gneiss                 5.00",
+    "prismatic-gneiss                  5.00"
+  ],
+  "Security -0.2 (Caldari, Gallente)" => [
+    "dark-ochre                        8.00",
+    "onyx-ochre                        8.00",
+    "obsidian-ochre                    8.00"
+  ],
+  "Security 0.2 (Amarr, Gallente)" => [
+    "hedbergite                        3.00",
+    "vitric-hedbergite                 3.00",
+    "glazed-hedbergite                 3.00",
+    "hemorphite                        3.00",
+    "vivid-hemorphite                  3.00",
+    "radiant-hemorphite                3.00"
+  ],
+  "Security 0.4 (Amarr, Gallente)" => [
+    "jaspet                            2.00",
+    "pure-jaspet                       2.00",
+    "pristine-jaspet                   2.00"
+  ],
+  "Security 0.7 (Amarr)\nSecurity 0.4 (Caldari, Minmatar)" => [
+    "kernite                           1.20",
+    "luminous-kernite                  1.20",
+    "fiery-kernite                     1.20"
+  ],
+  "Security 0.7 (Gallente, Minmatar)" => [
+    "omber                             0.60",
+    "silvery-omber                     0.60",
+    "golden-omber                      0.60"
+  ],
+  "Security 0.9 (Gallente, Minmatar)\nSecurity 0.7 (Caldari)" => [
+    "plagioclase                       0.35",
+    "azure-plagioclase                 0.35",
+    "rich-plagioclase                  0.35"
+  ],
+  "Security 0.9 (Amarr, Caldari)" => [
+    "pyroxeres                         0.30",
+    "solid-pyroxeres                   0.30",
+    "viscous-pyroxeres                 0.30"
+  ],
+  "All Space" => [
+    "scordite                          0.19",
+    "condensed-scordite                0.19",
+    "massive-scordite                  0.19",
+    "veldspar                          0.15",
+    "concentrated-veldspar             0.15",
+    "dense-veldspar                    0.15"
+  ]
+);
 
-sub decode_json_file {
-  my $filename = shift;
-
-  # We need relaxed(1) because we use comments in our config files
-  #
-  my $json = JSON::PP->new->ascii;
-  $json = $json->relaxed(1);
-
-  local $/;
-  open(FH, "<", $filename) or die("ERROR: Can't open config file $filename: $!\n");
-  $json = $json->decode(<FH>);
-  close(FH);
-  return $json;
-}
 
 # Taken from http://docstore.mik.ua/orelly/perl3/lperl/ch15_03.htm
 # but modified for ISK (no US dollar symbol)
@@ -48,20 +127,10 @@ sub verify_number {
 
 $hold_size = 5000.00;
 
-$cfg = decode_json_file("$Bin/data.json");
-%ores = %{ $cfg };
-
 $m3 = "m\N{U+00B3}";
 
-if ($ores{__ORDER}) {
-  @section_order = @{ $ores{__ORDER} };
-
-  delete $ores{__ORDER};
-}
-else {
-  print "ERROR: __ORDER array missing in JSON file\n";
-  exit(1);
-}
+@section_order = @{ $ores{__ORDER} };
+delete $ores{__ORDER};
 
 
 # TODO Migrate to Getopt::Long, though this makes the command line
@@ -134,7 +203,7 @@ foreach my $type (@section_order) {
 }
 
 if ($chosen_ore and not $ore_found) {
-  print "ERROR: Ore '", $chosen_ore, "' not found in JSON file\n";
+  print "ERROR: Ore '", $chosen_ore, "' not found\n";
   exit(1);
 }
 
