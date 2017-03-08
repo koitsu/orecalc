@@ -161,8 +161,8 @@ foreach my $type (@section_order) {
 
   foreach (@array) {
     s#\s+# #g;
-    my ($orename, $value) = split(/ /, $_);
-    my $result = $hold_size / $value;
+    my ($orename, $volume) = split(/ /, $_);
+    my $result = $hold_size / $volume;
 
     if ($chosen_ore) {
       if ($chosen_ore eq $orename) {
@@ -170,11 +170,11 @@ foreach my $type (@section_order) {
 
         $ore_found = 1;
 
-        printf "%s: %.2f $m3 = %.2f $m3 storable (in hold of %.2f $m3)\n",
+        printf "%s: %.2f $m3 hold / volume %.2f = %.2f units per hold\n",
           $orename_coloured,
-          $value,
-          $result,
-          $hold_size;
+          $hold_size,
+          $volume,
+          $result;
 
         if ($price) {
           my $payout = $result * $price;
@@ -182,7 +182,7 @@ foreach my $type (@section_order) {
           my $price_coloured  = "\e[1;32m" . big_money($price)  . "\e[0;0m";
           my $payout_coloured = "\e[1;33m" . big_money($payout) . "\e[0;0m";
 
-          printf "%s: %.2f $m3 \@ %s ISK = %s ISK payout (pre-tax)\n",
+          printf "%s: %.2f units \@ %s ISK = %s ISK\n",
             $orename_coloured,
             $result,
             $price_coloured,
@@ -193,9 +193,9 @@ foreach my $type (@section_order) {
     else {
       my $orename_coloured = "\e[1;36m" . $orename . "\e[0;0m";
 
-      printf "  %-45s %.2f $m3 = %.2f $m3 storable (in hold of %.2f $m3)\n",
+      printf "  %-45s volume %.2f = %.2f units per %.2f $m3 hold\n",
         $orename_coloured,
-        $value,
+        $volume,
         $result,
         $hold_size;
     }
